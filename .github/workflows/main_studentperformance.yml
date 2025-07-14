@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy container app to Azure Web App - studentperformance
 
 on:
@@ -10,42 +7,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: 'ubuntu-latest'
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Log in to registry
-      uses: docker/login-action@v2
-      with:
-        registry: https://studentperformance2.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_660ae56828cd44a1a3b35ac68c94a2e5 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_299b1fe6052b433f90beb418e087b2d5 }}
-
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
-      with:
-        push: true
-        tags: studentperformance2.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_660ae56828cd44a1a3b35ac68c94a2e5 }}/studentperformance:${{ github.sha }}
-        file: ./Dockerfile
-
   deploy:
     runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
     - name: Deploy to Azure Web App
-      id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'studentperformance'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_d03d64aa9df1459e9bff78457dbb228e }}
-        images: 'studentperformance2.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_660ae56828cd44a1a3b35ac68c94a2e5 }}/studentperformance:${{ github.sha }}'
+        app-name: studentperformance                # <-- Your Azure Web App name
+        slot-name: production                       # Or remove if you’re not using slots
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        images: studentperformance2.azurecr.io/studentperformance:latest

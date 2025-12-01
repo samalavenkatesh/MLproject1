@@ -10,8 +10,7 @@ prediction)\
 ✔ Modular Python package (`src/`)\
 ✔ Streamlit/Flask-based web app\
 ✔ CI/CD workflow\
-✔ Deployment setup using **Render**\
-✔ Docker containerization
+ 
 
 ## 📂 Repository Structure
 
@@ -63,10 +62,6 @@ Run:
 
     python app.py
 
-## 🚀 Deployment (Render)
-
-Uses: - render.yaml\
-- Dockerfile
 
 ## 🛠 Installation
 

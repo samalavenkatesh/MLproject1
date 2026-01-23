@@ -13,4 +13,5 @@ joblib
 pydantic
 streamlit
 altair==4.2.2
+imghdr
 # -e .
